@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
 const mongoDbConnect = require('./config/dbConnect')
-const timeRoutes = require('./routes/time-entry.route')
+const timeEntryRoutes = require('./routes/time-entry.route')
+const screenshotRoutes = require('./routes/time-entry.route')
 
 
 mongoDbConnect(process.env.DATABASE_URL);
@@ -19,8 +20,8 @@ app.use('/home', (req, res) => {
     res.send("Welcome to NODE EXPRESS application...!!!")
 });
 
-app.use('/time', timeRoutes);
-
+app.use('/time', timeEntryRoutes);
+app.use('/screenshot', screenshotRoutes);
 
 app.listen(2000, () => {
     console.log(`Server Started at 2000 `)
