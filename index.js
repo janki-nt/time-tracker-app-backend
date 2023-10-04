@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser")
 const cors = require("cors")
 const mongoDbConnect = require('./config/dbConnect')
 const timeEntryRoutes = require('./routes/time-entry.route')
-const screenshotRoutes = require('./routes/time-entry.route')
+const screenshotRoutes = require('./routes/screenshot.route')
 
 
 mongoDbConnect(process.env.DATABASE_URL);
