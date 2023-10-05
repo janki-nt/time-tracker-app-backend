@@ -5,7 +5,18 @@ const path = require('path');
 
 const captureScreenshot = (req, res, next) => {
     const timestamp = Date.now();
-    const directoryPath = './uploads/screenshots';
+    const user_id = req.body.userId;
+    const directoryPath = `./uploads/screenshots/${user_id}`;
+    if (!fs.existsSync(directoryPath)) {
+        // If it doesn't exist, create it
+        fs.mkdirSync(directoryPath, { recursive: true }, (err) => {
+            if (err) {
+                console.error('Error creating directory:', err);
+            } else {
+                console.log('Directory created successfully.');
+            }
+        });
+    }
     let fileName = `screenshot_${timestamp}.png`
     const filePath = path.join(directoryPath, fileName);
     screenshot({ format: 'png' }).then(async (img) => {
@@ -15,9 +26,9 @@ const captureScreenshot = (req, res, next) => {
         })
         let data = {
             image: img.toString('base64'),
-            userId: 1,
+            userId: user_id,
         }
-        const screenshot = new Screenshots(data)
+        const screenshot = new Screenshots(data);
         await screenshot.save();
         return res.status(200).json({ message: 'Screenshot saved to db' });
     }).catch((err) => {

@@ -9,7 +9,7 @@ const TimeEntrySchema = new Schema({
         type: Date
     },
     userId: {
-        type: Number
+        type: String
     }
 });
 
