@@ -1,16 +1,26 @@
 const User = require("../models/user.model");
 const bcrypt = require('bcryptjs');
 const auth = require('../middlewares/validJWT');
+const Organization = require("../models/organization.model");
 
 const registerUser = async (req, res, next) => {
-    console.log(req.body)
     try {
-        var user = new User(req.body);
+        var user = new User(req.body.userData);
         const salt = bcrypt.genSaltSync(10);
         user.password = bcrypt.hashSync(user.password, salt);
         await user.save();
+        if (user.role === 'manager') {
+            let orgData = {
+                organizationName: req.body.organizationData.organizationName,
+                organizationalRole: req.body.organizationData.organizationalRole,
+                owner: user._id
+            }
+            const organization = new Organization(orgData);
+            await organization.save();
+        }
         return res.status(200).json({ data: user, message: "User Registered" });
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ message: error });
     }
 };

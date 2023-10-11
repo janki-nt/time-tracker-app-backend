@@ -6,6 +6,9 @@ const mongoDbConnect = require('./config/dbConnect');
 const timeEntryRoutes = require('./routes/time-entry.route');
 const screenshotRoutes = require('./routes/screenshot.route');
 const userRoutes = require('./routes/user.route');
+const projectRoutes = require('./routes/project.route');
+const settingRoutes = require('./routes/settings.route');
+const organizationRoutes = require('./routes/organization.route');
 
 mongoDbConnect(process.env.DATABASE_URL);
 const app = express();
@@ -23,6 +26,10 @@ app.use('/home', (req, res) => {
 app.use('/time', timeEntryRoutes);
 app.use('/screenshot', screenshotRoutes);
 app.use('/users', userRoutes);
+app.use('/projects', projectRoutes);
+app.use('/settings', settingRoutes);
+app.use('/organization', organizationRoutes);
+
 
 app.listen(2000, () => {
     console.log(`Server Started at 2000 `)

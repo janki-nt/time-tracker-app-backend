@@ -10,7 +10,9 @@ const TimeEntrySchema = new Schema({
     },
     userId: {
         type: String
-    }
+    },
+    mouseCount: Number,
+    keyboardCount: Number,
 });
 
 const TimeEntry = mongoose.model("time-entries", TimeEntrySchema);

@@ -12,10 +12,14 @@ var UserSchema = new Schema({
     lastName: String,
     role: {
         type: String,
-        enum: ['employee', 'admin', 'manager', 'guest'],
+        enum: ['employee', 'admin', 'manager', 'guest', 'project-manager', 'hr-manager'],
         default: 'guest'
     },
-    isVerified: Boolean,
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+
 }, { timestamps: true });
 
 const User = mongoose.model("users", UserSchema);
