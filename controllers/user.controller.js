@@ -4,8 +4,12 @@ const auth = require('../middlewares/validJWT');
 const Organization = require("../models/organization.model");
 
 const registerUser = async (req, res, next) => {
+
+    console.log(req.body);
+    // return
     try {
         var user = new User(req.body.userData);
+        const orgId = req.body.orgID;
         const salt = bcrypt.genSaltSync(10);
         user.password = bcrypt.hashSync(user.password, salt);
         await user.save();
@@ -18,6 +22,15 @@ const registerUser = async (req, res, next) => {
             const organization = new Organization(orgData);
             await organization.save();
         }
+
+        if (user.role === 'employee' || user.role === 'hr-manager' || user.role === 'project-manager') {
+            await Organization.findByIdAndUpdate(
+                orgId,
+                { $push: { employees: user._id } },
+                { new: true }
+            );
+        }
+
         return res.status(200).json({ data: user, message: "User Registered" });
     } catch (error) {
         console.log(error)

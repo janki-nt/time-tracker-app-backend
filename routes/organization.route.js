@@ -8,4 +8,6 @@ router.get('/update/:id', organizationController.updateOrganization)
 
 router.get('/detail/:id',organizationController.getOrganizationDataByUserId)
 
+router.get('/employees/:id',organizationController.getEmployeesByOrganization)
+
 module.exports = router;

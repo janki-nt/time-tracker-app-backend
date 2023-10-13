@@ -1,4 +1,5 @@
 const Organization = require("../models/organization.model");
+const User = require("../models/user.model");
 
 const saveOrganization = async (req, res, next) => {
     console.log(req.body)
@@ -40,9 +41,33 @@ const getOrganizationDataByUserId = async (req, res, next) => {
     }
 }
 
+const getEmployeesByOrganization = async (req, res, next) => {
+    try {
+        const organization = await Organization.findById(req.params.id);
+        var employees = [];
+        if (!organization) {
+            return res.status(404).json({ message: "No Organization Found", data: organization });
+        } else {
+            const employee = organization.employees;
+            await Promise.all(employee.map(async (empId) => {
+                const orgEmp = await User.findById(empId);
+                if (orgEmp) {
+                    employees.push(orgEmp);
+                }
+            }));
+            return res.status(200).json({ message: "Employees Fetched", data: employees });
+        }
+    } catch (error) {
+
+        return res.status(500).json({ message: error });
+    }
+
+}
+
 
 module.exports = {
     saveOrganization,
     updateOrganization,
-    getOrganizationDataByUserId
+    getOrganizationDataByUserId,
+    getEmployeesByOrganization
 }

@@ -13,21 +13,19 @@ const saveProject = async (req, res, next) => {
 };
 
 
-
-
-// const getSettingsByUserId = async (req, res, next) => {
-//     try {
-//         var project = await Project.find({ userId: req.params.id });
-//         if (project !== null) {
-//             return res.status(200).json({ message: "Project details retrieved", data: project });
-//         }
-//         else {
-//             return res.status(404).json({ message: "No Project Found", data: project });
-//         }
-//     } catch (error) {
-//         return res.status(500).json({ message: error });
-//     }
-// };
+const getProjectsByOrgId = async (req, res, next) => {
+    try {
+        var project = await Project.find({ organizationId: req.params.id });
+        if (project !== null) {
+            return res.status(200).json({ message: "Project details retrieved", data: project });
+        }
+        else {
+            return res.status(404).json({ message: "No Project Found", data: project });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error });
+    }
+};
 
 // const updateSettingsByUserId = async (req, res, next) => {
 //     try {
@@ -46,4 +44,5 @@ const saveProject = async (req, res, next) => {
 
 module.exports = {
     saveProject,
+    getProjectsByOrgId
 }
