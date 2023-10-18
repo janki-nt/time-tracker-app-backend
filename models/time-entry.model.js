@@ -11,6 +11,10 @@ const TimeEntrySchema = new Schema({
     userId: {
         type: String
     },
+    project:{
+        type: String,
+        default: 'Default Project'
+    },
     mouseCount: Number,
     keyboardCount: Number,
 });
